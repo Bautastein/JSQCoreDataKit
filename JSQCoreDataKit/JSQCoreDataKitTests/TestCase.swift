@@ -24,7 +24,6 @@ import JSQCoreDataKit
 let modelName = "TestModel"
 let modelBundle = NSBundle(forClass: ModelTests.self)
 
-
 class ModelTestCase: XCTestCase {
 
     // We'll be using an in-memory store, thus we don't need an real storeURL
@@ -39,4 +38,19 @@ class ModelTestCase: XCTestCase {
         super.tearDown()
     }
 
+}
+
+class PersistentModelTestCase: XCTestCase {
+    
+    let model = CoreDataModel(name: modelName, bundle: modelBundle, storeDirectoryURL: modelBundle.resourceURL!)
+    
+    override func setUp() {
+        model.removeExistingModelStore()
+        super.setUp()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+    }
+    
 }

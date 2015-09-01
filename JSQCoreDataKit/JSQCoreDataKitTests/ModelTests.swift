@@ -50,13 +50,13 @@ class ModelTests: XCTestCase {
         // THEN: the store file is in the documents directory
         let storeURLComponents = model.storeURL.pathComponents!
         XCTAssertEqual(toString(storeURLComponents.last!), model.databaseFileName)
-        XCTAssertEqual(toString(storeURLComponents[storeURLComponents.count - 2]), "Documents")
+        XCTAssertTrue(pathContains("Documents", inPathComponents: storeURLComponents))
         XCTAssertTrue(model.storeURL.fileURL)
 
         // THEN: the model is in its specified bundle
         let modelURLComponents = model.modelURL.pathComponents!
         XCTAssertEqual(toString(modelURLComponents.last!), model.name + ".momd")
-        XCTAssertEqual(toString(modelURLComponents[modelURLComponents.count - 2]), model.bundle.bundlePath.lastPathComponent)
+        XCTAssertTrue(pathContains(model.bundle.bundlePath.lastPathComponent, inPathComponents: modelURLComponents))
 
         // THEN: the managed object model does not assert
         XCTAssertNotNil(model.managedObjectModel)
@@ -96,4 +96,13 @@ class ModelTests: XCTestCase {
         XCTAssertFalse(results.success, "Removing store should fail")
     }
 
+}
+
+private func pathContains( component:String, inPathComponents pathComponents:[AnyObject] ) -> Bool {
+    for aComponent in reverse( pathComponents ) {
+        if( toString(aComponent) == component ) {
+            return true
+        }
+    }
+    return false
 }

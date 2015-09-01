@@ -20,6 +20,7 @@ import Foundation
 import CoreData
 
 let MyModelEntityName = "MyModel"
+let MySecondModelEntityName = "MySecondModel"
 
 class MyModel: NSManagedObject {
 
@@ -39,6 +40,33 @@ class MyModel: NSManagedObject {
             let entity = NSEntityDescription.entityForName(MyModelEntityName, inManagedObjectContext: context)!
             super.init(entity: entity, insertIntoManagedObjectContext: context)
 
+            self.myString = myString
+            self.myInt = myInt
+            self.myDate = myDate
+            self.myFloat = myFloat
+            self.myBool = myBool
+    }
+    
+}
+
+class MySecondModel: NSManagedObject {
+    
+    @NSManaged var myString: String
+    @NSManaged var myInt: Int32
+    @NSManaged var myDate: NSDate
+    @NSManaged var myFloat: Float
+    @NSManaged var myBool: Bool
+    
+    convenience init(context: NSManagedObjectContext,
+        myString: String = NSUUID().UUIDString,
+        myInt: Int32 = Int32(arc4random_uniform(10_000)),
+        myDate: NSDate = NSDate(),
+        myFloat: Float = Float(arc4random_uniform(100)),
+        myBool: Bool = true) {
+            
+            let entity = NSEntityDescription.entityForName(MySecondModelEntityName, inManagedObjectContext: context)!
+            self.init(entity: entity, insertIntoManagedObjectContext: context)
+            
             self.myString = myString
             self.myInt = myInt
             self.myDate = myDate
